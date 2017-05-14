@@ -19,9 +19,9 @@ public class RobohonShuwaRestController {
 	
 	@PostMapping //@RequestBodyとしてバイナリデータを受け取る
 	public shuwaApiResult getShuwaApiResult(){
-        //RestTemplate restTemplate = new RestTemplate();
-        //shuwaApiResult result = restTemplate.getForObject("http://localhost:1598/api/test", shuwaApiResult.class);
-		shuwaApiResult result = new shuwaApiResult(1, 2);
+        RestTemplate restTemplate = new RestTemplate();
+        shuwaApiResult result = restTemplate.getForObject("http://localhost:1598/api/customers/test", shuwaApiResult.class);
+		//shuwaApiResult result = new shuwaApiResult(1, 2);
 		return result;
 	}
 }

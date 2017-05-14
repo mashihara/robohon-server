@@ -1,4 +1,6 @@
-target/
+# targetを含む
+# target/
+
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
