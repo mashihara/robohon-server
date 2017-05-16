@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.example.domain.shuwaApiResult;
+import com.example.domain.ShuwaApiResult;
 
 @RestController //(1)Restのエンドポイントとなる
 @RequestMapping("/") //(2)パスのルートを記載
 public class RobohonShuwaRestController {
 	
 	@PostMapping //@RequestBodyとしてバイナリデータを受け取る
-	public shuwaApiResult getShuwaApiResult(){
-        RestTemplate restTemplate = new RestTemplate();
-        shuwaApiResult result = restTemplate.getForObject("http://localhost:1598/api/customers/test", shuwaApiResult.class);
-		//shuwaApiResult result = new shuwaApiResult(1, 2);
+	public ShuwaApiResult getShuwaApiResult(){
+        //RestTemplate restTemplate = new RestTemplate();
+        //shuwaApiResult result = restTemplate.getForObject("http://localhost:1598/api/customers/test", shuwaApiResult.class);
+		ShuwaApiResult result = new ShuwaApiResult(1,2);
 		return result;
 	}
 }

@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor //(3)JPAの仕様で引数なしのコンストラクタをつける必要がある
 @AllArgsConstructor //これはまー、便利なので
-public class shuwaApiResult {
+public class ShuwaApiResult {
 	@NotNull
-	@Size(min=1,max=100)
 	private Integer label;
 	private Integer prob;
 }
