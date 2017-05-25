@@ -1,0 +1,11 @@
+version: "2"
+
+services:
+  my-robohon:
+    build: .
+    image: robohon:0.0.1
+    container_name: robohon
+    volumes:
+      - /c/Users/nttdata0523/robohon_data/:/tmp/
+    ports:
+      - "8080:8080" #restapi
