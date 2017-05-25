@@ -9,3 +9,4 @@ services:
       - /c/Users/nttdata0523/robohon_data/:/tmp/
     ports:
       - "8080:8080" #restapi
+    network_mode: "common_network"
