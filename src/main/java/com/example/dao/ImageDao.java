@@ -20,19 +20,7 @@ public class ImageDao {
 	//フルパスでファイルの格納先を定義する
 	private String imageFileDir = "/Users/birdman/mashihara/tmp/";
 	
-	public void save(MultipartFile imageFile) {
-		if (imageFile.getSize() > 0) {
-			String imageFileName = imageFile.getOriginalFilename();
-			
-			Path path = Paths.get(imageFileDir+imageFileName);
-			File file = path.toFile();
-			try {
-				imageFile.transferTo(file);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+	public void save(File file) {
+		
 	}
 }

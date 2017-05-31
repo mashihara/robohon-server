@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,7 @@ public class ImageService {
 	@Autowired
 	ImageDao imageDao;
 	
-	public void saveImage(MultipartFile file) {
-		// TODO Auto-generated method stub
+	public void saveImage(File file) {
 		imageDao.save(file);
 	}
 }
