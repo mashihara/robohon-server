@@ -30,7 +30,7 @@ import com.example.service.ImageService;
 @RequestMapping("/") //(2)パスのルートを記載
 public class RobohonShuwaRestController {
 	//private String imageFileDir = "/Users/birdman/mashihara/tmp/";
-	private String imageFileDir = "/mnt/";
+	private String imageFileDir = "/tmp/";
 
 	@Autowired	
 	private ImageService imageService;
