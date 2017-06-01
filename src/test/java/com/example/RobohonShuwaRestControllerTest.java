@@ -28,6 +28,6 @@ public class RobohonShuwaRestControllerTest{
         ShuwaApiResult shuwaApiResult = restTemplate.getForObject("http://localhost:1598/api/customers/test", ShuwaApiResult.class);
 
         assertThat(shuwaApiResult.getLabel(), is(1));
-        assertThat(shuwaApiResult.getProb(), is(2L));
+        assertThat(shuwaApiResult.getProb(), is("2"));
     }
 }
