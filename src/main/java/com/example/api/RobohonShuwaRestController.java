@@ -67,7 +67,8 @@ public class RobohonShuwaRestController {
 				requestParam.append(requestFile.getOriginalFilename());
 			}
 	        RestTemplate restTemplate = new RestTemplate();
-	        result = restTemplate.getForObject(uri.getPath(),ShuwaApiResult.class,requestParam);
+	        //result = restTemplate.getForObject(uri.getPath(),ShuwaApiResult.class,requestParam.toString());
+	        result = restTemplate.getForObject("http://sign_recog/signRecognition?"+requestParam.toString(),ShuwaApiResult.class);
 		}else{
 			result = new ShuwaApiResult(2,2);
 		}
