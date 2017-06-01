@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class ShuwaApiResult {
 	@NotNull
 	private Integer label;
-	private Integer prob;
+	private Long prob;
 }

@@ -70,7 +70,7 @@ public class RobohonShuwaRestController {
 	        //result = restTemplate.getForObject(uri.getPath(),ShuwaApiResult.class,requestParam.toString());
 	        result = restTemplate.getForObject("http://sign_recog:19999/signRecognition?"+requestParam.toString(),ShuwaApiResult.class);
 		}else{
-			result = new ShuwaApiResult(2,2);
+			result = new ShuwaApiResult(2,2L);
 		}
 		return result;
 	}
