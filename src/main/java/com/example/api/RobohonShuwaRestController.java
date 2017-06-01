@@ -36,7 +36,7 @@ public class RobohonShuwaRestController {
 	private ImageService imageService;
 
 	//@Value("http://sign_recog:19999/signRecognition?{requestParam}")
-	@Value("http://sign_recog/signRecognition?{requestParam}")
+	@Value("http://sign_recog:19999/signRecognition?{requestParam}")
 	URI uri;
 	
 	@PostMapping //@RequestBodyとしてバイナリデータを受け取る
@@ -68,7 +68,7 @@ public class RobohonShuwaRestController {
 			}
 	        RestTemplate restTemplate = new RestTemplate();
 	        //result = restTemplate.getForObject(uri.getPath(),ShuwaApiResult.class,requestParam.toString());
-	        result = restTemplate.getForObject("http://sign_recog/signRecognition?"+requestParam.toString(),ShuwaApiResult.class);
+	        result = restTemplate.getForObject("http://sign_recog:19999/signRecognition?"+requestParam.toString(),ShuwaApiResult.class);
 		}else{
 			result = new ShuwaApiResult(2,2);
 		}
