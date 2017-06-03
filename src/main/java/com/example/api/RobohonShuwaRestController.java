@@ -26,61 +26,42 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.example.domain.*;
 import com.example.service.ImageService;
 
-@RestController //(1)Restのエンドポイントとなる
-@RequestMapping("/") //(2)パスのルートを記載
+@RestController // (1)Restのエンドポイントとなる
+@RequestMapping("/") // (2)パスのルートを記載
 public class RobohonShuwaRestController {
-	//private String imageFileDir = "/Users/birdman/mashihara/tmp/";
+	// private String imageFileDir = "/Users/birdman/mashihara/tmp/";
 	private static final String imageFileDir = "/tmp/";
 	private static final String repalceName = "dockerDir";
 
-	@Autowired	
+	@Autowired
 	private ImageService imageService;
 
-	//@Value("http://sign_recog:19999/signRecognition?{requestParam}")
+	// @Value("http://sign_recog:19999/signRecognition?{requestParam}")
 	@Value("http://sign_recog:19999/signRecognition?{requestParam}")
 	URI uri;
-	
-	@PostMapping //@RequestBodyとしてバイナリデータを受け取る
-	public ShuwaApiResult getShuwaApiResult(@RequestParam("file1") MultipartFile requestFile,Model model){
-		StringBuilder requestParam = new StringBuilder();
-		ShuwaApiResult result=null;
-		if(requestFile!=null){
-			String imageFileName = requestFile.getOriginalFilename();
-			Path path = Paths.get(imageFileDir+imageFileName);
-			File file = path.toFile();
-			try {
-				requestFile.transferTo(file);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			requestParam.append("img1=");
-			requestParam.append(imageFileDir);
-			requestParam.append(requestFile.getOriginalFilename());
-			for(int i=2;i<=10;i++){
-				requestParam.append("&img");
-				requestParam.append(i);
-				requestParam.append("=");
-				requestParam.append(imageFileDir);
 
-				requestParam.append(requestFile.getOriginalFilename());
-			}
-	        RestTemplate restTemplate = new RestTemplate();
-	        //result = restTemplate.getForObject(uri.getPath(),ShuwaApiResult.class,requestParam.toString());
-	        result = restTemplate.getForObject("http://sign_recog:19999/signRecognition?"+requestParam.toString(),ShuwaApiResult.class);
-		}else{
-			result = new ShuwaApiResult(2,"2");
+	@PostMapping // @RequestBodyとしてバイナリデータを受け取る
+	public ShuwaApiResult getShuwaApiResult(@RequestParam("file1") MultipartFile requestFile, Model model) {
+		String imageFileName = requestFile.getOriginalFilename();
+		Path path = Paths.get(imageFileDir + imageFileName);
+		File file = path.toFile();
+		try {
+			requestFile.transferTo(file);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		ShuwaApiResult result = new ShuwaApiResult(11, "2");
 		return result;
 	}
+
 	@PostMapping("finish/{param}")
-	public ShuwaApiResult getAnswer(@PathVariable String param ){
+	public ShuwaApiResult getAnswer(@PathVariable String param) {
 		String requestParam = param.replaceAll(repalceName, imageFileDir);
-        RestTemplate restTemplate = new RestTemplate();
-        String urlPath = "http://sign_recog:19999/signRecognition?"+ requestParam;
-        ShuwaApiResult result = restTemplate.getForObject(urlPath,ShuwaApiResult.class);
-        return result;
+		RestTemplate restTemplate = new RestTemplate();
+		String urlPath = "http://sign_recog:19999/signRecognition?" + requestParam;
+		ShuwaApiResult result = restTemplate.getForObject(urlPath, ShuwaApiResult.class);
+		return result;
 	}
 }
