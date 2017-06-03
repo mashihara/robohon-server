@@ -30,7 +30,8 @@ import com.example.service.ImageService;
 @RequestMapping("/") //(2)パスのルートを記載
 public class RobohonShuwaRestController {
 	//private String imageFileDir = "/Users/birdman/mashihara/tmp/";
-	private String imageFileDir = "/tmp/";
+	private static final String imageFileDir = "/tmp/";
+	private static final String repalceName = "dockerDir";
 
 	@Autowired	
 	private ImageService imageService;
@@ -74,5 +75,12 @@ public class RobohonShuwaRestController {
 		}
 		return result;
 	}
-	
+	@PostMapping("finish/{param}")
+	public ShuwaApiResult getAnswer(@PathVariable String param ){
+		String requestParam = param.replaceAll(repalceName, imageFileDir);
+        RestTemplate restTemplate = new RestTemplate();
+        String urlPath = "http://sign_recog:19999/signRecognition?"+ requestParam;
+        ShuwaApiResult result = restTemplate.getForObject(urlPath,ShuwaApiResult.class);
+        return result;
+	}
 }
