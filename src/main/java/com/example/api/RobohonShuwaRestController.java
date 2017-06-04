@@ -56,12 +56,56 @@ public class RobohonShuwaRestController {
 		return result;
 	}
 
-	@PostMapping("finish/{param}")
-	public ShuwaApiResult getAnswer(@PathVariable String param) {
-		String requestParam = param.replaceAll(repalceName, imageFileDir);
+	//@PostMapping("finish/{param}")
+	//public ShuwaApiResult getAnswer(@PathVariable String param) {
+	//	String requestParam = param.replaceAll(repalceName, imageFileDir);
+	//	RestTemplate restTemplate = new RestTemplate();
+	//	String urlPath = "http://sign_recog:19999/signRecognition?" + requestParam;
+	//	ShuwaApiResult result = restTemplate.getForObject(urlPath, ShuwaApiResult.class);
+	//	return result;
+	//}
+	@PostMapping("finish")
+	public ShuwaApiResult getAnswer(
+			@RequestParam("img1") String img1
+			,@RequestParam("img2") String img2
+			,@RequestParam("img3") String img3
+			,@RequestParam("img4") String img4
+			,@RequestParam("img5") String img5
+			,@RequestParam("img6") String img6
+			,@RequestParam("img7") String img7
+			,@RequestParam("img8") String img8
+			,@RequestParam("img9") String img9
+			,@RequestParam("img10") String img10
+			) {
+		StringBuilder urlPath= new StringBuilder("http://sign_recog:19999/signRecognition?");
+		createFirstUrl(urlPath,1,img1);
+		createUrl(urlPath,2,img2);
+		createUrl(urlPath,3,img3);
+		createUrl(urlPath,4,img4);
+		createUrl(urlPath,5,img5);
+		createUrl(urlPath,6,img6);
+		createUrl(urlPath,7,img7);
+		createUrl(urlPath,8,img8);
+		createUrl(urlPath,9,img9);
+		createUrl(urlPath,10,img10);
 		RestTemplate restTemplate = new RestTemplate();
-		String urlPath = "http://sign_recog:19999/signRecognition?" + requestParam;
-		ShuwaApiResult result = restTemplate.getForObject(urlPath, ShuwaApiResult.class);
+		ShuwaApiResult result = restTemplate.getForObject(urlPath.toString(), ShuwaApiResult.class);
 		return result;
 	}
+	private void createFirstUrl(StringBuilder urlPath,int i,String imgName){
+		urlPath.append("img");
+		createCommonUrl(urlPath,i,imgName);
+	}
+
+	private void createUrl(StringBuilder urlPath,int i,String imgName){
+		urlPath.append("&img");
+		createCommonUrl(urlPath,i,imgName);
+	}
+	private void createCommonUrl(StringBuilder urlPath,int i,String imgName){
+		urlPath.append(i);
+		urlPath.append("=");
+		urlPath.append(imageFileDir);
+		urlPath.append(imgName);
+	}
+
 }
