@@ -56,14 +56,6 @@ public class RobohonShuwaRestController {
 		return result;
 	}
 
-	//@PostMapping("finish/{param}")
-	//public ShuwaApiResult getAnswer(@PathVariable String param) {
-	//	String requestParam = param.replaceAll(repalceName, imageFileDir);
-	//	RestTemplate restTemplate = new RestTemplate();
-	//	String urlPath = "http://sign_recog:19999/signRecognition?" + requestParam;
-	//	ShuwaApiResult result = restTemplate.getForObject(urlPath, ShuwaApiResult.class);
-	//	return result;
-	//}
 	@PostMapping("finish")
 	public ShuwaApiResult getAnswer(
 			@RequestParam("img1") String img1
