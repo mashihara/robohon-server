@@ -4,7 +4,8 @@ var key =null;
 //ログインAPI
 //keyを取得する。
 function chatLogin(){
-	var loginUrl = 'http://localhost/chatlogin';
+	var loginUrl = './chatlogin';
+	//var loginUrl = 'http://localhost/chatlogin';
 	var requestdata = {roomName: $('#roomName').val()};
 	$.ajax({
 		type : 'post',                      // HTTPメソッド
@@ -53,7 +54,8 @@ function sendMessage() {
 
 //restでメッセージを送信。発話のときに利用する。
 function sendHatsuwaChatRestApi(){
-	var chatUrl = 'http://localhost/chatsend';
+	//var chatUrl = 'http://localhost/chatsend';
+	var chatUrl = './chatsend';
 	//syuwaFlg：手話の場合true、発話の場合false
 	//roomName
 	var requestdata = {syuwaFlg: false,roomName: "testroom",message:"テストです"};
@@ -71,7 +73,8 @@ function sendHatsuwaChatRestApi(){
 
 //restでメッセージを送信。手話版。
 function sendSyuwaChatRestApi(){
-	var chatUrl = 'http://localhost/chatsend';
+	//var chatUrl = 'http://localhost/chatsend';
+	var chatUrl = './chatsend';
 	var requetdata = {syuwaFlg: true,roomName: "hogeserial",message:"テストです"};
 	$.ajax({
 		type : 'post',                      // HTTPメソッド
