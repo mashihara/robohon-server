@@ -51,10 +51,8 @@
 			<version>3.1</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.springframework.restdocs</groupId>
-		    <artifactId>spring-restdocs-mockmvc</artifactId>
-		    <version>1.2.1.RELEASE</version>
-		    <scope>test</scope>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -63,43 +61,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		 
-			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-site-plugin</artifactId>
-			    <version>3.2</version>
-			    <dependencies>
-			        <dependency>
-			        <groupId>org.asciidoctor</groupId>
-			        <artifactId>asciidoctor-maven-plugin</artifactId>
-			        <version>1.5.2</version>
-			        </dependency>
-			    </dependencies>
-			</plugin>
-		 
-			<plugin>
-			    <groupId>org.asciidoctor</groupId>
-			    <artifactId>asciidoctor-maven-plugin</artifactId>
-			    <version>1.5.2</version>
-			    <executions>
-			        <execution>
-			            <id>generate-docs</id>
-			            <phase>package</phase>
-			            <goals>
-				            <goal>process-asciidoc</goal>
-			            </goals>
-			            <configuration>
-				            <preserveDirectories>true</preserveDirectories>
-				            <backend>html</backend>
-				            <doctype>book</doctype>
-				            <attributes>
-					            <stylesheet>${basedir}/src/main/asciidoc/asciidoc.css</stylesheet>
-					            <snippets>${project.build.directory}/generated-snippets</snippets>
-				            </attributes>
-			            </configuration>
-			        </execution>
-			    </executions>
 			</plugin>
 		</plugins>
 	</build>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8" />
+	<title>robohonchat</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.2/sockjs.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body onload="connect();">
+	<main>
+		<div class="row">
+			<ul id="main_area"></ul>
+			<div id="conversationDiv">
+				<label>socketで送信</label><input type="text" id="comment" />
+				<button id="sendName" onclick="sendMessage();">送る</button>
+			</div>
+		</div>
+	</main>
+	<div id="chat_rest_api">
+		<label>apiで送信</label>
+		<button id="restbutton" onclick="sendHatsuwaChatRestApi();">送る</button>
+	</div>
+<script type="text/javascript" src="js/chat.js"></script>
+</body>
+</html>

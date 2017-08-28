@@ -29,7 +29,12 @@ import com.example.service.ImageService;
 @RestController // (1)Restのエンドポイントとなる
 @RequestMapping("/") // (2)パスのルートを記載
 public class RobohonShuwaRestController {
+	// TODO （１）Windowsでやるときに変えていること
+	//（１）どこのパス？
 	// private String imageFileDir = "/Users/birdman/mashihara/tmp/";
+	//(2)windowsのパス
+	// private String imageFileDir = "C:\\Users\\mashi\\tmp\\";
+	//（３）tmpのパス
 	private static final String imageFileDir = "/tmp/";
 	private static final String repalceName = "dockerDir";
 
@@ -37,7 +42,7 @@ public class RobohonShuwaRestController {
 	private ImageService imageService;
 
 	// @Value("http://sign_recog:19999/signRecognition?{requestParam}")
-	@Value("http://sign_recog:19999/signRecognition?{requestParam}")
+	@Value("http://52.192.64.186:19999/signRecognition?{requestParam}")
 	URI uri;
 
 	@PostMapping // @RequestBodyとしてバイナリデータを受け取る
@@ -69,7 +74,7 @@ public class RobohonShuwaRestController {
 			,@RequestParam("img9") String img9
 			,@RequestParam("img10") String img10
 			) {
-		StringBuilder urlPath= new StringBuilder("http://sign_recog:19999/signRecognition?");
+		StringBuilder urlPath= new StringBuilder("http://localhost:19999/signRecognition?");
 		createFirstUrl(urlPath,1,img1);
 		createUrl(urlPath,2,img2);
 		createUrl(urlPath,3,img3);
@@ -83,6 +88,14 @@ public class RobohonShuwaRestController {
 		RestTemplate restTemplate = new RestTemplate();
 		ShuwaApiResult result = restTemplate.getForObject(urlPath.toString(), ShuwaApiResult.class);
 		return result;
+	}
+	@GetMapping("/chatsend") // @RequestBodyとしてバイナリデータを受け取る
+	public Message chatSend(@RequestBody Message message, Model model) {
+		return message;
+	}
+	@PostMapping("/chatsend") // @RequestBodyとしてバイナリデータを受け取る
+	public Message chatpPostSend(@RequestBody Message message, Model model) {
+		return message;
 	}
 	private void createFirstUrl(StringBuilder urlPath,int i,String imgName){
 		urlPath.append("img");
@@ -99,5 +112,4 @@ public class RobohonShuwaRestController {
 		urlPath.append(imageFileDir);
 		urlPath.append(imgName);
 	}
-
 }

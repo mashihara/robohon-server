@@ -3,10 +3,11 @@ version: "2"
 services:
   my-robohon:
     build: .
-    image: robohon:0.0.1
+    image: robohon:0.0.4
     container_name: robohon
     volumes:
-      - /c/Users/nttdata0523/robohon_data/:/tmp/
+      - /c/Users/mashi/Documents/77_study/robohon/robohon_data/:/tmp/
+#      - /c/Users/nttdata0523/robohon_data/:/tmp/
     ports:
-      - "8080:8080" #restapi
+      - "0:20000" #restapi
     network_mode: "common_network"
