@@ -27,6 +27,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.example.domain.*;
 import com.example.service.ImageService;
+import com.example.service.MyStompService;
 
 @RestController // (1)Restのエンドポイントとなる
 @RequestMapping("/") // (2)パスのルートを記載
@@ -44,6 +45,9 @@ public class RobohonShuwaRestController {
 	@Autowired
 	private ImageService imageService;
 
+	@Autowired
+	private MyStompService myStompService;
+	
 	// @Value("http://sign_recog:19999/signRecognition?{requestParam}")
 	@Value("http://52.192.64.186:19999/signRecognition?{requestParam}")
 	URI uri;
@@ -96,6 +100,7 @@ public class RobohonShuwaRestController {
 	public Message chatpPostSend(@RequestBody Message message, Model model) {
     	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS");
     	message.setServerTime(LocalDateTime.now().format(dtf));
+		myStompService.sendHello(message);
 		return message;
 	}
 	

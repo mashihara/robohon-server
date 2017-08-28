@@ -51,14 +51,14 @@ function sendMessage() {
     stompClient.send("/app/message/"+key, {}, JSON.stringify({'syuwaFlg': true,'roomName': 'testroom','message':comment}));
 }
 
-
+//ロボホンから送信するときに利用
 //restでメッセージを送信。発話のときに利用する。
 function sendHatsuwaChatRestApi(){
 	//var chatUrl = 'http://localhost/chatsend';
 	var chatUrl = './chatsend';
 	//syuwaFlg：手話の場合true、発話の場合false
 	//roomName
-	var requestdata = {syuwaFlg: false,roomName: "testroom",message:"テストです"};
+	var requestdata = {syuwaFlg: false,roomName: "testroom",message:"ロボホンからのメッセージです（手話）"};
 	$.ajax({
 		type : 'post',                      // HTTPメソッド
 		url  : chatUrl,           // POSTするURL
@@ -66,16 +66,17 @@ function sendHatsuwaChatRestApi(){
 		contentType: 'application/json',    // リクエストのContent-Type
 		dataType: 'json',                   // レスポンスのデータ型
 		success: function(message) {      // 成功時の処理
-				showComment(message);
+				//showComment(message); //RESTの戻り値を表示
 		},
 	});
 }
 
+//ロボホンから送信するときに利用
 //restでメッセージを送信。手話版。
 function sendSyuwaChatRestApi(){
 	//var chatUrl = 'http://localhost/chatsend';
 	var chatUrl = './chatsend';
-	var requetdata = {syuwaFlg: true,roomName: "hogeserial",message:"テストです"};
+	var requetdata = {syuwaFlg: true,roomName: "testroom",message:"ロボホンからのメッセージです（発話）"};
 	$.ajax({
 		type : 'post',                      // HTTPメソッド
 		url  : chatUrl,           // POSTするURL
@@ -83,7 +84,7 @@ function sendSyuwaChatRestApi(){
 		contentType: 'application/json',    // リクエストのContent-Type
 		dataType: 'json',                   // レスポンスのデータ型
 		success: function(message) {      // 成功時の処理
-				showComment(message);
+				//showComment(message); //RESTの戻り値を表示
 		},
 	});
 }

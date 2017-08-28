@@ -56,7 +56,7 @@ public class MyStompService {
     	if(stompSession==null){
     		connect();
     	}
-        stompSession.send("/app/message", message);
+        stompSession.send("/app/message/"+message.getRoomName(), message);
     }
     //StompSessionHandlerAdapterの拡張クラスが必要
     private class MyHandler extends StompSessionHandlerAdapter {
