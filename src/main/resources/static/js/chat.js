@@ -1,4 +1,22 @@
 var stompClient = null;
+var key =null;
+
+//ログインAPI
+//keyを取得する。
+function chatLogin(){
+	var loginUrl = 'http://localhost/chatlogin';
+	var requestdata = {roomName: $('#roomName').val()};
+	$.ajax({
+		type : 'post',                      // HTTPメソッド
+		url  : loginUrl,           // POSTするURL
+		data: JSON.stringify(requestdata),         // POSTするJSONデータ
+		contentType: 'application/json',    // リクエストのContent-Type
+		dataType: 'json',                   // レスポンスのデータ型
+		success: function(response) {      // 成功時の処理
+				key = response.key;
+		},
+	});
+}
 
 //SockJS,Stopmを使用
 //socketに接続、topic登録
@@ -6,7 +24,8 @@ function connect() {
 		var socket = new SockJS('/websocketEndpoint/'); // To connect WebSocket
 		stompClient = Stomp.over(socket);
 		stompClient.connect({}, function (frame) {
-			stompClient.subscribe('/topic/message', function (message) { // subscribe (/topic/greetings)
+			var test =key;
+			stompClient.subscribe('/topic/message/'+key, function (message) { // subscribe (/topic/greetings)
 				showComment(JSON.parse(message.body));
 			});
 			stompClient.subscribe('/user/queue/errors', function (error) { // subscribe Error
@@ -28,20 +47,20 @@ function showComment(message) {
 //chatアプリからこれは利用しない想定
 function sendMessage() {
     var comment = $('#comment').val();
-    stompClient.send("/app/message", {}, JSON.stringify({'syuwaFlg': true,'serialId': 'hogeserial','message':comment}));
+    stompClient.send("/app/message/"+key, {}, JSON.stringify({'syuwaFlg': true,'roomName': 'testroom','message':comment}));
 }
 
-var chatUrl = 'http://localhost/chatsend';
 
 //restでメッセージを送信。発話のときに利用する。
 function sendHatsuwaChatRestApi(){
+	var chatUrl = 'http://localhost/chatsend';
 	//syuwaFlg：手話の場合true、発話の場合false
-	//serialId
-	var requetdata = {syuwaFlg: false,serialId: "hogeserial",message:"テストです"};
+	//roomName
+	var requestdata = {syuwaFlg: false,roomName: "testroom",message:"テストです"};
 	$.ajax({
 		type : 'post',                      // HTTPメソッド
 		url  : chatUrl,           // POSTするURL
-		data: JSON.stringify(requetdata),         // POSTするJSONデータ
+		data: JSON.stringify(requestdata),         // POSTするJSONデータ
 		contentType: 'application/json',    // リクエストのContent-Type
 		dataType: 'json',                   // レスポンスのデータ型
 		success: function(message) {      // 成功時の処理
@@ -51,9 +70,9 @@ function sendHatsuwaChatRestApi(){
 }
 
 //restでメッセージを送信。手話版。
-//これは基本的には使う想定がない。送信のsyuwaFlg: true,にしただけ
 function sendSyuwaChatRestApi(){
-	var requetdata = {syuwaFlg: true,serialId: "hogeserial",message:"テストです"};
+	var chatUrl = 'http://localhost/chatsend';
+	var requetdata = {syuwaFlg: true,roomName: "hogeserial",message:"テストです"};
 	$.ajax({
 		type : 'post',                      // HTTPメソッド
 		url  : chatUrl,           // POSTするURL

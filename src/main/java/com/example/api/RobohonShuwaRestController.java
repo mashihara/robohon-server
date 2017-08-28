@@ -31,6 +31,7 @@ import com.example.service.ImageService;
 @RestController // (1)Restのエンドポイントとなる
 @RequestMapping("/") // (2)パスのルートを記載
 public class RobohonShuwaRestController {
+
 	// TODO （１）Windowsでやるときに変えていること
 	//（１）どこのパス？
 	// private String imageFileDir = "/Users/birdman/mashihara/tmp/";
@@ -96,6 +97,11 @@ public class RobohonShuwaRestController {
     	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS");
     	message.setServerTime(LocalDateTime.now().format(dtf));
 		return message;
+	}
+	
+	@PostMapping("/chatlogin") // @RequestBodyとしてバイナリデータを受け取る
+	public LoginResult chatpPostSend(@RequestBody Room room, Model model) {
+		return new LoginResult(room.getRoomName());
 	}
 	
 	private void createFirstUrl(StringBuilder urlPath,int i,String imgName){

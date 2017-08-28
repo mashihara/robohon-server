@@ -7,20 +7,36 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.2/sockjs.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </head>
-<body onload="connect();">
+<body>
 	<main>
 		<div class="row">
-			<ul id="main_area"></ul>
+			<h2>ルーム名設定</h2>
+			<div id="conversationDiv">
+				<label>ルーム名</label><input type="text" id="roomName" />
+				<button id="login" onclick="chatLogin();">設定</button>
+			</div>
+		</div>
+		<div class="row">
+			<h2>ルーム名設定後、socketに接続してください</h2>
+			<div id="conversationDiv">
+				<button id="sendName" onclick="connect();">接続</button>
+			</div>
+		</div>
+		<div class="row">
 			<div id="conversationDiv">
 				<label>socketで送信</label><input type="text" id="comment" />
 				<button id="sendName" onclick="sendMessage();">送る</button>
 			</div>
 		</div>
+		<div id="chat_rest_api">
+			<label>apiで送信</label>
+			<button id="restbutton" onclick="sendHatsuwaChatRestApi();">送る</button>
+		</div>
+		<div>
+			<h2>メッセージがここに表示されます。</h2>
+			<ul id="main_area"></ul>
+		</div>
 	</main>
-	<div id="chat_rest_api">
-		<label>apiで送信</label>
-		<button id="restbutton" onclick="sendHatsuwaChatRestApi();">送る</button>
-	</div>
 <script type="text/javascript" src="js/chat.js"></script>
 </body>
 </html>
