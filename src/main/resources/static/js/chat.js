@@ -21,7 +21,7 @@ function disconnect() {
 }
 
 function showComment(message) {
-    $('#main_area').append($('<li>').text(message.message));
+    $('#main_area').append($('<li>').text(message.serverTime+ ' 「'+message.message+'」')).append($('<li>').text());
 }
 
 //socketでtopicにメッセージ送信。

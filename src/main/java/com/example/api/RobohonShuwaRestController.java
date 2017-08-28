@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -89,14 +91,13 @@ public class RobohonShuwaRestController {
 		ShuwaApiResult result = restTemplate.getForObject(urlPath.toString(), ShuwaApiResult.class);
 		return result;
 	}
-	@GetMapping("/chatsend") // @RequestBodyとしてバイナリデータを受け取る
-	public Message chatSend(@RequestBody Message message, Model model) {
-		return message;
-	}
 	@PostMapping("/chatsend") // @RequestBodyとしてバイナリデータを受け取る
 	public Message chatpPostSend(@RequestBody Message message, Model model) {
+    	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS");
+    	message.setServerTime(LocalDateTime.now().format(dtf));
 		return message;
 	}
+	
 	private void createFirstUrl(StringBuilder urlPath,int i,String imgName){
 		urlPath.append("img");
 		createCommonUrl(urlPath,i,imgName);
