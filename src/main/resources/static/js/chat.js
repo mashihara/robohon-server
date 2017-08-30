@@ -1,56 +1,51 @@
 var stompClient = null;
-var key =null;
+var appKey =null;
+var robohonKey =null;
 
-//ログインAPI
-//keyを取得する。
-function chatLogin(){
-	var loginUrl = './chatlogin';
-	//var loginUrl = 'http://localhost/chatlogin';
-	var requestdata = {roomName: $('#roomName').val()};
+//■■■■■■■■■ロボホンが利用■■■■■■■■■
+//ロボホンログインAPI
+function registerRoom(){
+	var loginUrl = './registerRoom';
+	var requestdata = {serialId: $('#robohonSerialId').val(),roomName: $('#robohonRoomName').val()};
 	$.ajax({
-		type : 'post',                      // HTTPメソッド
+		type : 'post',                     // HTTPメソッド
 		url  : loginUrl,           // POSTするURL
 		data: JSON.stringify(requestdata),         // POSTするJSONデータ
 		contentType: 'application/json',    // リクエストのContent-Type
 		dataType: 'json',                   // レスポンスのデータ型
 		success: function(response) {      // 成功時の処理
-				key = response.key;
+			if(response.errorFlg){
+				console.log("エラー発生！エラーコード："+response.errorCode);
+			}
+			robohonKey = response.key;
 		},
 	});
 }
 
-//SockJS,Stopmを使用
-//socketに接続、topic登録
-function connect() {
-		var socket = new SockJS('/websocketEndpoint/'); // To connect WebSocket
-		stompClient = Stomp.over(socket);
-		stompClient.connect({}, function (frame) {
-			var test =key;
-			stompClient.subscribe('/topic/message/'+key, function (message) { // subscribe (/topic/greetings)
-				showComment(JSON.parse(message.body));
-			});
-			stompClient.subscribe('/user/queue/errors', function (error) { // subscribe Error
-				alert(JSON.parse(error.body).message);
-			});
-		});
+//ロボホン会話開始API
+function start(){
+	var url = './startEnd';
+	var requestdata = {key: robohonKey,startEnd:'start'};
+	$.ajax({
+		type : 'post',                      // HTTPメソッド
+		url  : url,           // POSTするURL
+		data: JSON.stringify(requestdata),         // POSTするJSONデータ
+		contentType: 'application/json',    // リクエストのContent-Type
+		dataType: 'json'                  // レスポンスのデータ型
+	});
 }
-
-function disconnect() {
-    if (stompClient != null) {stompClient.disconnect();}
-    console.log("Disconnected");
+//ロボホン会話終了API
+function end(){
+	var url = './startEnd';
+	var requestdata = {key: robohonKey,startEnd:'end'};
+	$.ajax({
+		type : 'post',                      // HTTPメソッド
+		url  : url,           // POSTするURL
+		data: JSON.stringify(requestdata),         // POSTするJSONデータ
+		contentType: 'application/json',    // リクエストのContent-Type
+		dataType: 'json'                  // レスポンスのデータ型
+	});
 }
-
-function showComment(message) {
-    $('#main_area').append($('<li>').text(message.serverTime+ ' 「'+message.message+'」')).append($('<li>').text());
-}
-
-//socketでtopicにメッセージ送信。
-//chatアプリからこれは利用しない想定
-function sendMessage() {
-    var comment = $('#comment').val();
-    stompClient.send("/app/message/"+key, {}, JSON.stringify({'syuwaFlg': true,'roomName': 'testroom','message':comment}));
-}
-
 //ロボホンから送信するときに利用
 //restでメッセージを送信。発話のときに利用する。
 function sendHatsuwaChatRestApi(){
@@ -58,7 +53,9 @@ function sendHatsuwaChatRestApi(){
 	var chatUrl = './chatsend';
 	//syuwaFlg：手話の場合true、発話の場合false
 	//roomName
-	var requestdata = {syuwaFlg: false,roomName: "testroom",message:"ロボホンからのメッセージです（手話）"};
+	var requestdata = {syuwaFlg: false
+		,key: robohonKey
+		,message:"ロボホンからのメッセージです（発話）"};
 	$.ajax({
 		type : 'post',                      // HTTPメソッド
 		url  : chatUrl,           // POSTするURL
@@ -76,15 +73,80 @@ function sendHatsuwaChatRestApi(){
 function sendSyuwaChatRestApi(){
 	//var chatUrl = 'http://localhost/chatsend';
 	var chatUrl = './chatsend';
-	var requetdata = {syuwaFlg: true,roomName: "testroom",message:"ロボホンからのメッセージです（発話）"};
+	var requestdata = {syuwaFlg: true
+		,key: robohonKey
+		,message:"ロボホンからのメッセージです（発話）"};
 	$.ajax({
 		type : 'post',                      // HTTPメソッド
 		url  : chatUrl,           // POSTするURL
-		data: JSON.stringify(requetdata),         // POSTするJSONデータ
+		data: JSON.stringify(requestdata),         // POSTするJSONデータ
 		contentType: 'application/json',    // リクエストのContent-Type
 		dataType: 'json',                   // レスポンスのデータ型
 		success: function(message) {      // 成功時の処理
 				//showComment(message); //RESTの戻り値を表示
 		},
 	});
+}
+
+//■■■■■■■■■アンドロイドアプリが利用■■■■■■■■■
+//keyを取得する。
+function checkRoom(){
+	var loginUrl = './checkRoom';
+	var requestdata = {serialId: $('#appSerialId').val(),roomName: $('#appRoomName').val()};
+	$.ajax({
+		type : 'post',                      // HTTPメソッド
+		url  : loginUrl,           // POSTするURL
+		data: JSON.stringify(requestdata),         // POSTするJSONデータ
+		contentType: 'application/json',    // リクエストのContent-Type
+		dataType: 'json',                   // レスポンスのデータ型
+		success: function(response) {      // 成功時の処理
+			if(response.errorFlg){
+				console.log("エラー発生！エラーコード："+response.errorCode);
+			}
+			appKey = response.key;
+		},
+	});
+}
+//アプリ側ソケット
+//SockJS,Stopmを使用
+//socketに接続、topic登録
+function connect() {
+		var socket = new SockJS('/websocketEndpoint/'); // To connect WebSocket
+		stompClient = Stomp.over(socket);
+		stompClient.connect({}, function (frame) {
+			stompClient.subscribe('/topic/message/'+appKey, function (message) { // subscribe (/topic/greetings)
+				showComment(JSON.parse(message.body));
+			});
+			stompClient.subscribe('/user/queue/errors', function (error) { // subscribe Error
+				alert(JSON.parse(error.body).message);
+			});
+		});
+}
+
+function disconnect() {
+    if (stompClient != null) {stompClient.disconnect();}
+    console.log("Disconnected");
+}
+
+function showComment(message) {
+	var comment;
+	if(message.messageType==1){
+		comment = "ロボホン開始しまーす";
+	}else if(message.messageType==2){
+		comment = "ロボホン終了しまーす";
+	}else{
+		comment = message.message;
+	}
+    $('#main_area').append($('<li>').text(message.serverTime+ ' 「'+comment+'」')).append($('<li>').text());
+}
+
+//アプリ側ソケット
+//socketでtopicにメッセージ送信。
+//サンプルで用意しているが、これは利用しない想定
+function sendMessage() {
+    stompClient.send("/app/message/"+appKey, {}, JSON.stringify(
+			{'syuwaFlg': true
+			,'serrialId':$('#appSerialId').val()
+			,'roomName':$('#appRoomName').val()
+			,'message':$('#comment').val()}));
 }

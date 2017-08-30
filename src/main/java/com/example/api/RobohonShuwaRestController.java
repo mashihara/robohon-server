@@ -96,19 +96,36 @@ public class RobohonShuwaRestController {
 		ShuwaApiResult result = restTemplate.getForObject(urlPath.toString(), ShuwaApiResult.class);
 		return result;
 	}
+	//以下、チャットアプリのコントローラー
+	//ロボホンから
+	@PostMapping("/checkRoom") // @RequestBodyとしてバイナリデータを受け取る
+	public LoginResult checkRoom(@RequestBody Room room, Model model) {
+		return new LoginResult(room.getSerialId() + room.getRoomName());
+	}
+	//アンドロイドアプリから
+	@PostMapping("/registerRoom") // @RequestBodyとしてバイナリデータを受け取る
+	public LoginResult registerRoom(@RequestBody Room room, Model model) {
+		return new LoginResult(room.getSerialId() + room.getRoomName());
+	}
+	//ロボホンからこのAPIで送られてくる
 	@PostMapping("/chatsend") // @RequestBodyとしてバイナリデータを受け取る
 	public Message chatpPostSend(@RequestBody Message message, Model model) {
     	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS");
     	message.setServerTime(LocalDateTime.now().format(dtf));
+    	message.setErrorFlg(false);
+    	message.setMessageType(0);
 		myStompService.sendHello(message);
 		return message;
 	}
-	
-	@PostMapping("/chatlogin") // @RequestBodyとしてバイナリデータを受け取る
-	public LoginResult chatpPostSend(@RequestBody Room room, Model model) {
-		return new LoginResult(room.getRoomName());
+	//ロボホンの開始終了
+	@PostMapping("/startEnd") // @RequestBodyとしてバイナリデータを受け取る
+	public void start(@RequestBody StartEndRequest startEndRequest, Model model) {
+		Message message = new Message(startEndRequest);
+		myStompService.sendHello(message);
 	}
 	
+
+
 	private void createFirstUrl(StringBuilder urlPath,int i,String imgName){
 		urlPath.append("img");
 		createCommonUrl(urlPath,i,imgName);

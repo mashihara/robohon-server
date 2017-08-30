@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Room {
-	String RoomName;
+	String roomName;
+	String serialId;
 }

@@ -9,12 +9,28 @@
 </head>
 <body>
 	<main>
+		<h1 style="background-color:blue">ロボホンサイドのRESTAPI</h1>
+		<h2>ルーム名設定</h2>
+		<div>
+			<label>ルーム名</label><input type="text" id="robohonRoomName" />
+			<label>シリアルID</label><input type="text" id="robohonSerialId" />
+			<button id="check" onclick="registerRoom();">ルーム名確認</button>
+		</div>
+		<h2>ロボホンの会話</h2>
+		<div id="chat_rest_api">
+			<button id="restbutton" onclick="start();">会話開始</button><br />
+			<label>apiで送信</label>
+			<button id="restbutton" onclick="sendHatsuwaChatRestApi();">送る</button><br />
+			<button id="restbutton" onclick="end();">会話終了</button>
+		</div>
+
 		<h1 style="background-color:yellow">アプリサイドの操作</h1>
 		<div class="row">
 			<h2>ルーム名設定</h2>
 			<div id="conversationDiv">
-				<label>ルーム名</label><input type="text" id="roomName" />
-				<button id="login" onclick="chatLogin();">設定</button>
+				<label>ルーム名</label><input type="text" id="appRoomName" />
+				<label>シリアルID</label><input type="text" id="appSerialId" />
+				<button id="check" onclick="checkRoom();">ルーム名確認</button>
 			</div>
 		</div>
 		<div class="row">
@@ -34,14 +50,7 @@
 			<h2>メッセージがここに表示されます。</h2>
 			<ul id="main_area"></ul>
 		</div>
-
-		<h1 style="background-color:yellow">ロボホンサイドのRESTAPI</h1>
-		<p>ルーム名を「testroom」固定にしています。アプリ側でロボホンと同じtestroomにするとメッセージが見れます。</p>
-		<div id="chat_rest_api">
-			<label>apiで送信</label>
-			<button id="restbutton" onclick="sendHatsuwaChatRestApi();">送る</button>
-		</div>
 	</main>
-<script type="text/javascript" src="js/chat.js"></script>
+	<script type="text/javascript" src="js/chat.js"></script>
 </body>
 </html>
