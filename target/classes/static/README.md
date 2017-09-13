@@ -44,7 +44,7 @@ URLはすべて同じです。
 ・リクエストBODY：
 {syuwaFlg: false,key: robohonKey,message:"ロボホンからのメッセージです（発話）"};
   - syuwaFlg：true⇒手話、false⇒発話
-  - robohonFlg：true⇒ロボホン、false⇒ユーザー //★2017/9/13追加
+  - robohonFlg　：true⇒ロボホン、false⇒ユーザー //★2017/9/13追加
   - key：「（１）registerRoom　ルーム名登録」で取得したキーを利用
   - message:メッセージそのもの
 
@@ -122,6 +122,7 @@ Content-Type: application/json;charset=UTF-8
 }
 ```
 - status: 0:正常
+- duration: ナノ秒
 
 ### 2-3. 異常時レスポンス
 ```properties
@@ -139,6 +140,7 @@ Content-Type: application/json;charset=UTF-8
 }
 ```
 - status: 1:異常
+- duration: ナノ秒
 
 ## （２）/finish　結果取得API
 １０枚のファイルを送った後にリクエストするAPI。

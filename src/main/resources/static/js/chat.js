@@ -55,6 +55,7 @@ function sendHatsuwaChatRestApi(){
 	//roomName
 	var requestdata = {syuwaFlg: false
 		,key: robohonKey
+		,robohonFlg: true
 		,message:"ロボホンからのメッセージです（発話）"};
 	$.ajax({
 		type : 'post',                      // HTTPメソッド

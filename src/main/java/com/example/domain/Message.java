@@ -11,6 +11,7 @@ import lombok.Data;
 public class Message {
 	private int messageType; //0:通常メッセージ、1：開始、2：終了
 	private boolean errorFlg=false; //true:エラー、false：正常
+	private boolean robohonFlg=false; //true:ロボホン、false：人
 	private String errorCode; //errorFlgがtrueの場合のエラーの内容。
 	//1000:すでに他の端末でルーム名が登録されています
 	//1001:ロボホンで、ルーム名が登録されていません。先にロボホン側の設定を行ってください。
@@ -26,6 +27,7 @@ public class Message {
     	}else{
     		this.errorFlg=true;
     	}
+    	this.robohonFlg=true;
     	this.key=startEndRequest.getKey();
     	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS");
     	this.serverTime=LocalDateTime.now().format(dtf);

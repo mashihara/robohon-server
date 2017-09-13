@@ -33,6 +33,7 @@ URLはすべて同じです。
 ・socketへのtopic通知のJSON.parse(message.body)の中身：
 {messageType: 1, errorFlg: false, errorCode: null,serverTime:"2017-08-30 03:07:41:793",～}
 - messageType：1 or 2　（messageType自体は0⇒通常,1⇒開始,2⇒終了 ）
+- robohonFlg　：true（ロボホン）//★2017/9/13追加
 - errorFlg:true⇒エラー時、false⇒正常
 - errorCode:エラーコード（現状想定なし）
 - serverTime:サーバー時刻
@@ -44,7 +45,7 @@ URLはすべて同じです。
 ・リクエストBODY：
 {syuwaFlg: false,key: robohonKey,message:"ロボホンからのメッセージです（発話）"};
   - syuwaFlg：true⇒手話、false⇒発話
-  - robohonFlg：true⇒ロボホン、false⇒ユーザー //★2017/9/13追加
+  - robohonFlg　：true⇒ロボホン、false⇒ユーザー //★2017/9/13追加
   - key：「（１）registerRoom　ルーム名登録」で取得したキーを利用
   - message:メッセージそのもの
 
@@ -57,7 +58,7 @@ URLはすべて同じです。
 - errorFlg:true⇒エラー時、false⇒正常
 - errorCode:エラーコード（現状想定なし）
 - robohonFlg：true⇒ロボホン、false⇒ユーザー //★2017/9/13追加
-- syuwaFlg：true⇒手話、false⇒発話 //★2017/9/13追加
+- syuwaFlg：true⇒手話、false⇒発話 //★2017/9/13追加（設計書追記漏れでした）
 - message:メッセージそのもの
 - serverTime:サーバー時刻
 
@@ -122,6 +123,7 @@ Content-Type: application/json;charset=UTF-8
 }
 ```
 - status: 0:正常
+- duration: ナノ秒
 
 ### 2-3. 異常時レスポンス
 ```properties
@@ -139,6 +141,7 @@ Content-Type: application/json;charset=UTF-8
 }
 ```
 - status: 1:異常
+- duration: ナノ秒
 
 ## （２）/finish　結果取得API
 １０枚のファイルを送った後にリクエストするAPI。
