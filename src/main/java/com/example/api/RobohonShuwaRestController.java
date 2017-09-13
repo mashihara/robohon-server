@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.example.dao.RoomRepository;
 import com.example.domain.*;
 import com.example.service.ImageService;
 import com.example.service.MyStompService;
@@ -41,6 +43,7 @@ public class RobohonShuwaRestController {
 	//（３）tmpのパス
 	private static final String imageFileDir = "/tmp/";
 	private static final String repalceName = "dockerDir";
+	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS");
 
 	@Autowired
 	private ImageService imageService;
@@ -48,12 +51,12 @@ public class RobohonShuwaRestController {
 	@Autowired
 	private MyStompService myStompService;
 	
-	// @Value("http://sign_recog:19999/signRecognition?{requestParam}")
-	@Value("http://52.192.64.186:19999/signRecognition?{requestParam}")
-	URI uri;
+	@Autowired
+	private RoomRepository roomRepository;
 
 	@PostMapping // @RequestBodyとしてバイナリデータを受け取る
-	public ShuwaApiResult getShuwaApiResult(@RequestParam("file1") MultipartFile requestFile, Model model) {
+	public ShuwaImageResult getShuwaApiResult(@RequestParam("file1") MultipartFile requestFile, Model model) {
+		LocalDateTime startTime=LocalDateTime.now();
 		String imageFileName = requestFile.getOriginalFilename();
 		Path path = Paths.get(imageFileDir + imageFileName);
 		File file = path.toFile();
@@ -64,7 +67,9 @@ public class RobohonShuwaRestController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		ShuwaApiResult result = new ShuwaApiResult(11, "2");
+		LocalDateTime endTime=LocalDateTime.now();
+		Duration duration = Duration.between(startTime, endTime);
+		ShuwaImageResult result = new ShuwaImageResult(0,startTime.format(dtf),endTime.format(dtf),duration.getNano());
 		return result;
 	}
 
@@ -81,6 +86,7 @@ public class RobohonShuwaRestController {
 			,@RequestParam("img9") String img9
 			,@RequestParam("img10") String img10
 			) {
+		LocalDateTime startTime=LocalDateTime.now();
 		StringBuilder urlPath= new StringBuilder("http://localhost:19999/signRecognition?");
 		createFirstUrl(urlPath,1,img1);
 		createUrl(urlPath,2,img2);
@@ -93,7 +99,10 @@ public class RobohonShuwaRestController {
 		createUrl(urlPath,9,img9);
 		createUrl(urlPath,10,img10);
 		RestTemplate restTemplate = new RestTemplate();
-		ShuwaApiResult result = restTemplate.getForObject(urlPath.toString(), ShuwaApiResult.class);
+		SignrecogResult signResult = restTemplate.getForObject(urlPath.toString(), SignrecogResult.class);
+		LocalDateTime endTime=LocalDateTime.now();
+		Duration duration = Duration.between(startTime, endTime);
+		ShuwaApiResult result = new ShuwaApiResult(signResult.getLabel(),signResult.getProb(),startTime.format(dtf),endTime.format(dtf),duration.getNano());
 		return result;
 	}
 	//以下、チャットアプリのコントローラー
@@ -110,7 +119,6 @@ public class RobohonShuwaRestController {
 	//ロボホンからこのAPIで送られてくる
 	@PostMapping("/chatsend") // @RequestBodyとしてバイナリデータを受け取る
 	public Message chatpPostSend(@RequestBody Message message, Model model) {
-    	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS");
     	message.setServerTime(LocalDateTime.now().format(dtf));
     	message.setErrorFlg(false);
     	message.setMessageType(0);
@@ -124,6 +132,11 @@ public class RobohonShuwaRestController {
 		myStompService.sendHello(message);
 	}
 	
+	@PostMapping("/test") // JPAテスト
+	public List<Room> test(Model model) {
+		List<Room> rooms = roomRepository.findAll();
+		return rooms;
+	}
 
 
 	private void createFirstUrl(StringBuilder urlPath,int i,String imgName){

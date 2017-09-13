@@ -1,13 +1,16 @@
+C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\domain\SignrecogResult.java
 C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\WebSocketConfig.java
 C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\api\ShuwaApiRequestBody.java
 C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\domain\MessagingError.java
 C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\api\RobohonShuwaRestController.java
 C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\domain\StartEndRequest.java
 C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\domain\ShuwaApiResult.java
+C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\domain\ShuwaImageResult.java
 C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\service\ImageService.java
 C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\domain\LoginResult.java
 C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\service\MyStompService.java
 C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\domain\User.java
+C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\dao\RoomRepository.java
 C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\domain\ShuwaApiRequest.java
 C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\domain\Message.java
 C:\Users\mashi\Documents\77_study\robohon\robohon-server\src\main\java\com\example\domain\Room.java

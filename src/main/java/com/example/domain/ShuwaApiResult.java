@@ -14,4 +14,7 @@ public class ShuwaApiResult {
 	@NotNull
 	private Integer label;
 	private String prob;
+	private String startTime;
+	private String endTime;
+	private Integer duration;
 }
