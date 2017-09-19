@@ -15,8 +15,8 @@ URLはすべて同じです。
 {key:robohonkey,errorFlg：true,errorCode：'true' ,～}
   - key:このキーをもとにロボホンとアンドロイドを紐づける。シリアルID＋ルーム名
   - errorFlg：true //ture正常、false異常
-  - errorCode：1000 //エラーコード ★2017/9/13実装しました
-    - 1000:すでに他の端末でルーム名が登録されています
+  - errorCode：1000 //エラーコード ★2017/9/13実装しました⇒9/19エラーは発生しません。
+  　同じ端末で別のルーム名を設定した場合は、更新されます。別の端末であれば同じルーム名であっても許容されます。
 
 ### （２）startEnd　開始終了API
 ・パス：
@@ -58,7 +58,7 @@ URLはすべて同じです。
 - errorFlg:true⇒エラー時、false⇒正常
 - errorCode:エラーコード（現状想定なし）
 - robohonFlg：true⇒ロボホン、false⇒ユーザー //★2017/9/13追加
-- syuwaFlg：true⇒手話、false⇒発話 //★2017/9/13追加（設計書追記漏れでした）
+- syuwaFlg：true⇒手話、false⇒発話 //★2017/9/13追加（もともと出てました。設計書追記漏れでした）
 - message:メッセージそのもの
 - serverTime:サーバー時刻
 
@@ -75,9 +75,10 @@ URLはすべて同じです。
 ・レスポンスBODY：
 {key:robohonkey,errorFlg：true,errorCode：'true' ,～}
   - key:このキーをもとにロボホンとアンドロイドを紐づける。シリアルID＋ルーム名
-  - errorFlg：true //ture正常、false異常
-  - errorCode：1000 //エラーコード ★2017/9/13実装しました
-    - 1100:ルーム名かシリアルIDが誤っています。「手話通訳アプリ」の設定を確認してください。
+  - errorFlg:true⇒エラー時、false⇒正常　⇒★9/19エラーフラグの意味が逆になっていたので修正しました。
+  - errorCode：1100 //エラーコード ★2017/9/13実装しました⇒★9/19エラーコードを増やしました。
+    - 1100:ルーム名が誤っています。「手話通訳アプリ」の設定を確認してください。
+    - 1110:シリアルIDが存在しません。「手話通訳アプリ」の設定を確認してください。
 
 ### （５）socket
 socketまわりは省略します。chat.jsを参考にしてください。
@@ -117,9 +118,9 @@ Content-Type: application/json;charset=UTF-8
 ```js
 {
   "status":0
-  "startTime":"2017-08-30 03:07:41:793"
-  "endTime":"2017-08-30 03:07:41:793"
-  "duration":
+  "startTime": "2017-09-13 04:18:14:413",
+  "endTime": "2017-09-13 04:18:14:761",
+  "duration": 348000000
 }
 ```
 - status: 0:正常
@@ -135,9 +136,9 @@ Content-Type: application/json;charset=UTF-8
 ```js
 {
   "status":1
-  ,"startTime":"2017-08-30 03:07:41:793"
-  ,"endTime":"2017-08-30 03:07:41:793"
-  ,"duration":
+  "startTime": "2017-09-13 04:18:14:413",
+  "endTime": "2017-09-13 04:18:14:761",
+  "duration": 348000000
 }
 ```
 - status: 1:異常
@@ -174,9 +175,9 @@ Content-Type: application/json;charset=UTF-8
 {
   "label":7
   ,"prob":"0.25"
-  ,"startTime":"2017-08-30 03:07:41:793"
-  ,"endTime":"2017-08-30 03:07:41:793"
-  ,"duration":
+  "startTime": "2017-09-13 04:18:14:413",
+  "endTime": "2017-09-13 04:18:14:761",
+  "duration": 348000000
 }
 ```
 - label:認識した結果

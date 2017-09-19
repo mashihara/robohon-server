@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -109,11 +110,21 @@ public class RobohonShuwaRestController {
 	//ロボホンから
 	@PostMapping("/checkRoom") // @RequestBodyとしてバイナリデータを受け取る
 	public LoginResult checkRoom(@RequestBody Room room, Model model) {
-		return new LoginResult(room.getSerialId() + room.getRoomName());
+		Room findedRoom = roomRepository.findOne(room.getSerialId());
+		LoginResult result = new LoginResult(room.getSerialId() + room.getRoomName());
+		if(findedRoom==null){
+			result.setErrorFlg(true);
+			result.setErrorCode("1110");
+		}else if(!room.getRoomName().equals(findedRoom.getRoomName())){
+			result.setErrorFlg(true);
+			result.setErrorCode("1100");
+		}
+		return result;
 	}
 	//アンドロイドアプリから
 	@PostMapping("/registerRoom") // @RequestBodyとしてバイナリデータを受け取る
 	public LoginResult registerRoom(@RequestBody Room room, Model model) {
+		roomRepository.save(room);
 		return new LoginResult(room.getSerialId() + room.getRoomName());
 	}
 	//ロボホンからこのAPIで送られてくる
@@ -136,6 +147,13 @@ public class RobohonShuwaRestController {
 	public List<Room> test(Model model) {
 		List<Room> rooms = roomRepository.findAll();
 		return rooms;
+	}
+	@PostMapping("/time") // 時刻テスト
+	public String time(Model model) {
+    	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS");
+    	LocalDateTime ldt = LocalDateTime.now();
+    	ldt.atZone(ZoneId.of("Asia/Tokyo"));
+    	return ldt.format(dtf);
 	}
 
 

@@ -14,13 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Room {
-	@Id //主キー
-	@GeneratedValue(strategy=GenerationType.IDENTITY) //postgersの場合、GeneratedValueにこれがいる
-	Integer roomId;
 	String roomName;
+	@Id //主キー
 	String serialId;
-	Room(String roomName,String serialId){
-		this.roomName=roomName;
-		this.serialId=serialId;
-	}
 }
